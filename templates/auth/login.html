@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>DocuIA - Login</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
         <h2>Bem-vindo de volta</h2>
         <p class="subtitle">Entre com suas credenciais para continuar</p>
 
-        <form action="../dashboard/dashboard.html">
+        <form action="/login" method="POST">
             <div class="form-group">
                 <label>E-mail</label>
                 <div class="input-box">
@@ -43,7 +43,7 @@
                     Lembrar-me
                 </label>
 
-                <a href="esqueceu_senha.html">Esqueceu a senha?</a>
+                <a href="/esqueceu-senha">Esqueceu a senha?</a>
             </div>
 
             <button type="submit">
@@ -53,7 +53,7 @@
         </form>
 
         <p class="bottom-text">
-            Não tem uma conta? <a href="cadastro.html">Criar conta</a>
+            Não tem uma conta? <a href="/cadastro">Criar conta</a>
         </p>
     </section>
 
