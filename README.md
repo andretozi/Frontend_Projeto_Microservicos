@@ -22,7 +22,7 @@ Nosso grupo é especificamente responsável pelo módulo de **Upload, Cadastro e
 
 ---
 
-## ✨ Funcionalidades Atuais do Front-end 
+## Funcionalidades Atuais do Front-end 
 
 Através do roteamento com o framework Flask, já temos o esqueleto navegável da plataforma:
 
@@ -33,7 +33,7 @@ Através do roteamento com o framework Flask, já temos o esqueleto navegável d
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 * **Front-end:** HTML5, CSS3.
 * **Back-end de Roteamento:** Python, Flask (Web Framework).
