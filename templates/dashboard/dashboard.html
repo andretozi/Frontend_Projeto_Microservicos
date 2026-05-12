@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocuIA - Dashboard</title>
 
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body class="dashboard-body">
@@ -18,16 +18,16 @@
     </div>
 
     <nav class="menu">
-        <a class="active" href="dashboard.html">
-            <img src="../../static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px;"> <span>Dashboard</span>
+        <a class="active" href="/dashboard">
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px;"> <span>Dashboard</span>
         </a>
 
-        <a href="lista_empresas.html">
-            <img src="../../static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px;"> <span>Empresas</span>
+        <a href="/empresas">
+            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px;"> <span>Empresas</span>
         </a>
 
-        <a href="lista_projetos.html">
-            <img src="../../static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px;"> <span>Projetos</span>
+        <a href="/projetos">
+            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px;"> <span>Projetos</span>
         </a>
     </nav>
 
@@ -37,13 +37,13 @@
 
             <div class="user-menu" id="userMenu">
 
-                <a href="perfil.html">
+                <a href="/perfil">
                     ♙ Meu Perfil
                 </a>
 
                 <div class="menu-divider"></div>
 
-                <a href="../auth/login.html" class="logout-link">
+                <a href="/login" class="logout-link">
                     ↪ Sair
                 </a>
 
@@ -78,7 +78,7 @@
             <h1>Olá, Usuário! 👋</h1>
 
             <p style="display:flex; align-items:center; gap:6px;">
-                <img src="../../static/assets/images/business-and-trade.png" alt="Empresa" style="width:16px; height:16px;"> Empresa atual:
+                <img src="/static/assets/images/business-and-trade.png" alt="Empresa" style="width:16px; height:16px;"> Empresa atual:
                 <strong>Empresa Demo</strong>
             </p>
         </header>
@@ -89,7 +89,7 @@
 
                 <div class="stat-top">
                     <div class="stat-icon blue">
-                        <img src="../../static/assets/images/folder.png" alt="Projetos" style="width:24px; height:24px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/folder.png" alt="Projetos" style="width:24px; height:24px; filter: brightness(0) invert(1);">
                     </div>
 
                     <span>↗</span>
@@ -104,7 +104,7 @@
 
                 <div class="stat-top">
                     <div class="stat-icon green">
-                        <img src="../../static/assets/images/file.png" alt="Documentos" style="width:24px; height:24px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/file.png" alt="Documentos" style="width:24px; height:24px; filter: brightness(0) invert(1);">
                     </div>
 
                     <span>↗</span>
@@ -119,7 +119,7 @@
 
                 <div class="stat-top">
                     <div class="stat-icon purple">
-                        <img src="../../static/assets/images/presentation.png" alt="Apresentações" style="width:24px; height:24px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/presentation.png" alt="Apresentações" style="width:24px; height:24px; filter: brightness(0) invert(1);">
                     </div>
 
                     <span>↗</span>
@@ -134,7 +134,7 @@
 
                 <div class="stat-top">
                     <div class="stat-icon orange">
-                        <img src="../../static/assets/images/diagram.png" alt="Diagramas" style="width:24px; height:24px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/diagram.png" alt="Diagramas" style="width:24px; height:24px; filter: brightness(0) invert(1);">
                     </div>
 
                     <span>↗</span>
@@ -152,17 +152,17 @@
             <div class="panel">
 
                 <div class="panel-title">
-                    <h2><img src="../../static/assets/images/clock.png" alt="Recentes" style="width:20px; height:20px; vertical-align:text-bottom;"> Projetos Recentes</h2>
+                    <h2><img src="/static/assets/images/clock.png" alt="Recentes" style="width:20px; height:20px; vertical-align:text-bottom;"> Projetos Recentes</h2>
 
-                    <a href="lista_projetos.html">
+                    <a href="/projetos">
                         Ver todos ›
                     </a>
                 </div>
 
-                <a href="../projeto/projeto.html" class="list-item" style="text-decoration: none; color: inherit;">
+                <a href="/projeto" class="list-item" style="text-decoration: none; color: inherit;">
 
                     <div class="item-icon purple">
-                        <img src="../../static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
                     </div>
 
                     <div class="item-text">
@@ -171,17 +171,17 @@
                     </div>
 
                     <div class="item-meta">
-                        <img src="../../static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 12 &nbsp;&nbsp;
-                        <img src="../../static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 5 &nbsp;&nbsp;
+                        <img src="/static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 12 &nbsp;&nbsp;
+                        <img src="/static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 5 &nbsp;&nbsp;
                         ›
                     </div>
 
                 </a>
 
-                <a href="../projeto/projeto.html" class="list-item" style="text-decoration: none; color: inherit;">
+                <a href="/projeto" class="list-item" style="text-decoration: none; color: inherit;">
 
                     <div class="item-icon purple">
-                        <img src="../../static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
                     </div>
 
                     <div class="item-text">
@@ -190,17 +190,17 @@
                     </div>
 
                     <div class="item-meta">
-                        <img src="../../static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 8 &nbsp;&nbsp;
-                        <img src="../../static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 3 &nbsp;&nbsp;
+                        <img src="/static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 8 &nbsp;&nbsp;
+                        <img src="/static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 3 &nbsp;&nbsp;
                         ›
                     </div>
 
                 </a>
 
-                <a href="../projeto/projeto.html" class="list-item" style="text-decoration: none; color: inherit;">
+                <a href="/projeto" class="list-item" style="text-decoration: none; color: inherit;">
 
                     <div class="item-icon purple">
-                        <img src="../../static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/folder.png" alt="Projeto" style="width:20px; height:20px; filter: brightness(0) invert(1);">
                     </div>
 
                     <div class="item-text">
@@ -209,8 +209,8 @@
                     </div>
 
                     <div class="item-meta">
-                        <img src="../../static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 15 &nbsp;&nbsp;
-                        <img src="../../static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 4 &nbsp;&nbsp;
+                        <img src="/static/assets/images/file.png" alt="file" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 15 &nbsp;&nbsp;
+                        <img src="/static/assets/images/users.png" alt="users" style="width:14px; height:14px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> 4 &nbsp;&nbsp;
                         ›
                     </div>
 
@@ -222,18 +222,18 @@
 
                 <div class="panel-title">
 
-                    <h2><img src="../../static/assets/images/business-and-trade.png" alt="Empresas" style="width:20px; height:20px; vertical-align:text-bottom;"> Minhas Empresas</h2>
+                    <h2><img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:20px; height:20px; vertical-align:text-bottom;"> Minhas Empresas</h2>
 
-                    <a href="lista_empresas.html">
+                    <a href="/empresas">
                         Ver todas ›
                     </a>
 
                 </div>
 
-                <a href="../empresa/empresa.html" class="list-item company-item" style="text-decoration: none; color: inherit;">
+                <a href="/empresa" class="list-item company-item" style="text-decoration: none; color: inherit;">
 
                     <div class="item-icon green">
-                        <img src="../../static/assets/images/business-and-trade.png" alt="Empresa" style="width:20px; height:20px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/business-and-trade.png" alt="Empresa" style="width:20px; height:20px; filter: brightness(0) invert(1);">
                     </div>
 
                     <div class="item-text">
@@ -249,10 +249,10 @@
 
                 </a>
 
-                <a href="../empresa/empresa.html" class="list-item company-item" style="text-decoration: none; color: inherit;">
+                <a href="/empresa" class="list-item company-item" style="text-decoration: none; color: inherit;">
 
                     <div class="item-icon green">
-                        <img src="../../static/assets/images/business-and-trade.png" alt="Empresa" style="width:20px; height:20px; filter: brightness(0) invert(1);">
+                        <img src="/static/assets/images/business-and-trade.png" alt="Empresa" style="width:20px; height:20px; filter: brightness(0) invert(1);">
                     </div>
 
                     <div class="item-text">

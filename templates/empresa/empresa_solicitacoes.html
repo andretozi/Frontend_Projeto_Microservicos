@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>DocuIA - Empresas</title>
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body class="dashboard-body">
@@ -15,36 +15,31 @@
     </div>
 
     <nav class="menu">
-        <a href="../dashboard/dashboard.html">
-            <img src="../../static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Dashboard</span>
+        <a href="/dashboard">
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Dashboard</span>
         </a>
-        <a class="active" href="../dashboard/lista_empresas.html">
-            <img src="../../static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom; filter: brightness(0) invert(1);"> <span>Empresas</span>
+        <a class="active" href="/empresas">
+            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom; filter: brightness(0) invert(1);"> <span>Empresas</span>
         </a>
-        <a href="../dashboard/lista_projetos.html">
-            <img src="../../static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Projetos</span>
+        <a href="/projetos">
+            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Projetos</span>
         </a>
     </nav>
 
     <div class="sidebar-bottom">
-
         <div class="user-dropdown-area">
             <div class="user-menu" id="userMenu">
-                <a href="../dashboard/perfil.html">♙ Meu Perfil</a>
-
+                <a href="/perfil">♙ Meu Perfil</a>
                 <div class="menu-divider"></div>
-
-                <a href="../auth/login.html" class="logout-link">↪ Sair</a>
+                <a href="/login" class="logout-link">↪ Sair</a>
             </div>
 
             <button class="user-box user-toggle" onclick="toggleUserMenu()">
                 <div class="profile-mini-avatar">U</div>
-
                 <div class="user-info">
                     <strong>Usuário</strong>
                     <p>asd@a</p>
                 </div>
-
                 <span class="dropdown-arrow">⌄</span>
             </button>
         </div>
@@ -58,7 +53,7 @@
         <div class="project-header-section">
             <div class="project-title-area">
                 <div class="project-icon-large" style="background: #8b5cf6;">
-                    <img src="../../static/assets/images/business-and-trade.png" alt="Empresa" style="width:28px; height:28px; filter: brightness(0) invert(1);">
+                    <img src="/static/assets/images/business-and-trade.png" alt="Empresa" style="width:28px; height:28px; filter: brightness(0) invert(1);">
                 </div>
                 <div class="project-info-large">
                     <h1>Empresa Demo</h1>
@@ -69,28 +64,28 @@
 
         <div class="company-stats-grid">
             <div class="company-stat-card">
-                <span><img src="../../static/assets/images/folder.png" alt="Projetos" style="width:14px; height:14px;"> Projetos</span>
+                <span><img src="/static/assets/images/folder.png" alt="Projetos" style="width:14px; height:14px;"> Projetos</span>
                 <strong>8</strong>
             </div>
             <div class="company-stat-card">
-                <span><img src="../../static/assets/images/users.png" alt="Membros" style="width:14px; height:14px;"> Membros</span>
+                <span><img src="/static/assets/images/users.png" alt="Membros" style="width:14px; height:14px;"> Membros</span>
                 <strong>12</strong>
             </div>
             <div class="company-stat-card">
-                <span><img src="../../static/assets/images/users.png" alt="Admins" style="width:14px; height:14px;"> Admins</span>
+                <span><img src="/static/assets/images/users.png" alt="Admins" style="width:14px; height:14px;"> Admins</span>
                 <strong>2</strong>
             </div>
             <div class="company-stat-card">
-                <span><img src="../../static/assets/images/users.png" alt="Owners" style="width:14px; height:14px;"> Owners</span>
+                <span><img src="/static/assets/images/users.png" alt="Owners" style="width:14px; height:14px;"> Owners</span>
                 <strong>1</strong>
             </div>
         </div>
 
         <div class="project-tabs">
-            <a href="empresa.html" class="tab">Projetos</a>
-            <a href="empresa_membros.html" class="tab">Membros</a>
-            <a href="empresa_solicitacoes.html" class="tab active">Solicitações <span class="tab-badge">2</span></a>
-            <a href="empresa_configuracoes.html" class="tab">Configurações</a>
+            <a href="/empresa" class="tab">Projetos</a>
+            <a href="/empresa/membros" class="tab">Membros</a>
+            <a href="/empresa/solicitacoes" class="tab active">Solicitações <span class="tab-badge">2</span></a>
+            <a href="/empresa/configuracoes" class="tab">Configurações</a>
         </div>
 
         <div class="members-header">
@@ -136,32 +131,6 @@ window.addEventListener("click", function(e) {
     if (!menu.contains(e.target) && !button.contains(e.target)) {
         menu.classList.remove("show");
     }
-});
-</script>
-
-<script>
-function toggleCompanyMenu() {
-
-    const menu = document.getElementById("companyMenu");
-
-    menu.classList.toggle("show");
-
-}
-
-window.addEventListener("click", function(e) {
-
-    const menu = document.getElementById("companyMenu");
-
-    const button = document.querySelector(".company-toggle");
-
-    if (
-        !menu.contains(e.target)
-        &&
-        !button.contains(e.target)
-    ) {
-        menu.classList.remove("show");
-    }
-
 });
 </script>
 
