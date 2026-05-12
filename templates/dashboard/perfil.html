@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>DocuIA - Perfil</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+<body class="dashboard-body">
+
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <h2>DocuIA</h2>
+        <p>Documentação Inteligente</p>
+    </div>
+
+    <nav class="menu">
+        <a href="dashboard.html">
+            <img src="../../static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Dashboard</span>
+        </a>
+        <a href="lista_empresas.html">
+            <img src="../../static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Empresas</span>
+        </a>
+        <a href="lista_projetos.html">
+            <img src="../../static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Projetos</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+
+    <div class="user-dropdown-area">
+
+        <div class="user-menu" id="userMenu">
+            <a href="perfil.html">♙ Meu Perfil</a>
+
+
+            <div class="menu-divider"></div>
+
+            <a href="../auth/login.html" class="logout-link">↪ Sair</a>
+        </div>
+
+        <button class="user-box user-toggle" onclick="toggleUserMenu()">
+            <div class="profile-mini-avatar">U</div>
+
+            <div class="user-info">
+                <strong>Usuário</strong>
+                <p>asd@a</p>
+            </div>
+
+            <span class="dropdown-arrow">⌄</span>
+        </button>
+
+    </div>
+
+</div>
+</aside>
+
+<main class="dashboard-main profile-main">
+
+    <section class="profile-content">
+
+        <header class="profile-header">
+            <h1>Meu Perfil</h1>
+            <p>Gerencie suas informações pessoais e configurações</p>
+        </header>
+
+        <section class="profile-card">
+            <div class="profile-card-title">
+                <h2>Informações Pessoais</h2>
+                <button class="outline-btn">Editar Perfil</button>
+            </div>
+
+            <div class="profile-user">
+                <div class="profile-avatar">U</div>
+
+                <div>
+                    <h3>Usuário</h3>
+                    <p>Desenvolvedor</p>
+                </div>
+            </div>
+
+            <form>
+                <div class="profile-grid">
+                    <div class="profile-field">
+                        <label>Nome completo</label>
+                        <div class="profile-input">♙ <input type="text" value="Usuário"></div>
+                    </div>
+
+                    <div class="profile-field">
+                        <label>E-mail</label>
+                        <div class="profile-input">✉ <input type="email" value="asd@a"></div>
+                    </div>
+
+                    <div class="profile-field">
+                        <label>Empresa</label>
+                        <div class="profile-input"><input type="text" value="Empresa Demo"></div>
+                    </div>
+
+                    <div class="profile-field">
+                        <label>Cargo/Função</label>
+                        <div class="profile-input"><input type="text" value="Desenvolvedor"></div>
+                    </div>
+                </div>
+
+                <div class="profile-field bio-field">
+                    <label>Biografia</label>
+                    <textarea>Desenvolvedor full-stack com foco em documentação técnica e automação.</textarea>
+                </div>
+            </form>
+        </section>
+
+        <section class="profile-card password-card">
+            <h2>Alterar Senha</h2>
+
+            <form>
+                <div class="profile-field">
+                    <label>Senha atual</label>
+                    <div class="profile-input">▢ <input type="password" value="12345678"></div>
+                </div>
+
+                <div class="profile-field">
+                    <label>Nova senha</label>
+                    <div class="profile-input">▢ <input type="password" value="12345678"></div>
+                </div>
+
+                <div class="profile-field">
+                    <label>Confirmar nova senha</label>
+                    <div class="profile-input">▢ <input type="password" value="12345678"></div>
+                </div>
+
+                <button class="password-btn" type="submit">▢ Alterar Senha</button>
+            </form>
+        </section>
+
+    </section>
+
+</main>
+
+<div class="help-btn">?</div>
+
+<script>
+function toggleUserMenu() {
+    const menu = document.getElementById("userMenu");
+    menu.classList.toggle("show");
+}
+
+window.addEventListener("click", function(e) {
+    const menu = document.getElementById("userMenu");
+    const button = document.querySelector(".user-toggle");
+
+    if (!menu.contains(e.target) && !button.contains(e.target)) {
+        menu.classList.remove("show");
+    }
+});
+</script>
+
+<script>
+function toggleCompanyMenu() {
+
+    const menu = document.getElementById("companyMenu");
+
+    menu.classList.toggle("show");
+
+}
+
+window.addEventListener("click", function(e) {
+
+    const menu = document.getElementById("companyMenu");
+
+    const button = document.querySelector(".company-toggle");
+
+    if (
+        !menu.contains(e.target)
+        &&
+        !button.contains(e.target)
+    ) {
+        menu.classList.remove("show");
+    }
+
+});
+</script>
+
+</body>
+</html>
