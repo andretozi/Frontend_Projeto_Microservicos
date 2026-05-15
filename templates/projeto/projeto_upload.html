@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>DocuIA - Upload de Arquivos</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+<aside class="sidebar">
+
+    <div class="sidebar-logo">
+        <h2>DocuIA</h2>
+        <p>Documentação Inteligente</p>
+    </div>
+
+    <nav class="menu">
+        <a href="/dashboard">
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
+        </a>
+        <a href="/empresas">
+            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
+        </a>
+        <a class="active" href="/projetos">
+            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="company-dropdown-area">
+            <div class="company-menu" id="companyMenu">
+                <a href="#">Empresa Demo</a>
+                <div class="company-divider"></div>
+                <a href="#" class="create-company-link">+ Nova Empresa</a>
+            </div>
+            <button class="company-select company-toggle" onclick="toggleCompanyMenu()">
+                <span>
+                    <img src="/static/assets/images/business-and-trade.png" alt="" style="width:15px; height:15px; filter: grayscale(100%) opacity(0.6);">
+                    <strong>Empresa Demo</strong>
+                </span>
+                <span style="color:#64748b; font-size:13px;">⌄</span>
+            </button>
+        </div>
+
+        <div class="user-dropdown-area">
+            <div class="user-menu" id="userMenu">
+                <a href="/perfil">♙ Meu Perfil</a>
+                <div class="menu-divider"></div>
+                <a href="/login" class="logout-link">↪ Sair</a>
+            </div>
+
+            <button class="user-box user-toggle" onclick="toggleUserMenu()">
+                <div class="profile-mini-avatar">U</div>
+                <div class="user-info">
+                    <strong>Usuário</strong>
+                    <p>aa@aa</p>
+                </div>
+                <span class="dropdown-arrow">⌄</span>
+            </button>
+        </div>
+    </div>
+
+</aside>
+
+<main class="dashboard-main">
+
+    <section class="project-internal-content" style="padding: 32px 40px;">
+
+        <a href="/projeto" class="back-to-projects">← Voltar para Sistema E-commerce</a>
+
+        <div style="margin-bottom: 24px;">
+            <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 6px;">Upload e Gerenciamento de Dados</h1>
+            <p style="font-size: 14px; color: #6b7280;">Conecte repositórios e faça upload de documentos do projeto <strong>Sistema E-commerce</strong></p>
+        </div>
+
+        <div class="project-tabs" style="margin-bottom: 32px;">
+            <a href="/projeto/github" class="tab">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" style="vertical-align:middle; margin-right:4px;">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                Repositórios GitHub
+            </a>
+            <a href="/projeto/upload" class="tab active">
+                <img src="/static/assets/images/file.png" alt="" style="width:14px; height:14px; filter: grayscale(100%) opacity(0.55); vertical-align:middle; margin-right:4px;">
+                Arquivos
+            </a>
+        </div>
+
+        <!-- Área de Upload -->
+        <input type="file" id="fileInput" style="display:none">
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-zone-drop">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+                <h3>Arraste arquivos aqui ou clique para selecionar</h3>
+                <p>PDFs, DOCX, imagens, diagramas e outros documentos do projeto</p>
+                <button class="btn-upload" type="button">Selecionar Arquivos</button>
+                <span class="upload-ai-note">✧ A IA classificará e extrairá metadados automaticamente</span>
+            </div>
+
+            <div class="upload-form-section">
+                <label for="projeto-select">Vincular a qual Projeto?</label>
+                <select id="projeto-select" class="upload-project-select">
+                    <option value="">Selecione um projeto</option>
+                    <option value="1">Sistema E-commerce</option>
+                </select>
+
+                <label class="upload-checkbox-row">
+                    <input type="checkbox" name="publico">
+                    Tornar arquivo Público
+                </label>
+            </div>
+
+            <div class="upload-meta-section" id="uploadMetaSection">
+                <div class="upload-meta-field">
+                    <label for="uploadFileName">Nome do arquivo</label>
+                    <input type="text" id="uploadFileName" class="upload-meta-input" placeholder="Nome sem extensão">
+                </div>
+                <div class="upload-meta-field upload-meta-ext">
+                    <label for="uploadFileExt">Extensão</label>
+                    <input type="text" id="uploadFileExt" class="upload-meta-input" placeholder=".pdf">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<div class="help-btn">?</div>
+
+<script>
+function toggleCompanyMenu() {
+    document.getElementById("companyMenu").classList.toggle("show");
+}
+
+function toggleUserMenu() {
+    document.getElementById("userMenu").classList.toggle("show");
+}
+
+window.addEventListener("click", function(e) {
+    const userMenu = document.getElementById("userMenu");
+    const userBtn = document.querySelector(".user-toggle");
+    if (userMenu && userBtn && !userMenu.contains(e.target) && !userBtn.contains(e.target)) {
+        userMenu.classList.remove("show");
+    }
+    const compMenu = document.getElementById("companyMenu");
+    const compBtn = document.querySelector(".company-toggle");
+    if (compMenu && compBtn && !compMenu.contains(e.target) && !compBtn.contains(e.target)) {
+        compMenu.classList.remove("show");
+    }
+});
+
+(function () {
+    const fileInput = document.getElementById('fileInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const metaSection = document.getElementById('uploadMetaSection');
+    const fileNameInput = document.getElementById('uploadFileName');
+    const fileExtInput = document.getElementById('uploadFileExt');
+
+    document.querySelector('.btn-upload').addEventListener('click', function (e) {
+        e.preventDefault();
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            handleFile(this.files[0].name);
+        }
+    });
+
+    uploadZone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = '#3154ff';
+    });
+
+    uploadZone.addEventListener('dragleave', function (e) {
+        if (!uploadZone.contains(e.relatedTarget)) {
+            uploadZone.style.borderColor = '#93c5fd';
+        }
+    });
+
+    uploadZone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = '#93c5fd';
+        const files = e.dataTransfer.files;
+        if (files && files[0]) {
+            handleFile(files[0].name);
+        }
+    });
+
+    function handleFile(filename) {
+        const lastDot = filename.lastIndexOf('.');
+        let name, ext;
+        if (lastDot > 0) {
+            name = filename.substring(0, lastDot);
+            ext = filename.substring(lastDot);
+        } else {
+            name = filename;
+            ext = '';
+        }
+        fileNameInput.value = name;
+        fileExtInput.value = ext;
+        metaSection.classList.add('show');
+    }
+})();
+</script>
+
+</body>
+</html>
