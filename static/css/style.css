@@ -1,4 +1,6 @@
-11* {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -111,6 +113,14 @@ input:-webkit-autofill:active {
 .menu a.active {
     background: #eef4ff;
     color: #4b63f4;
+}
+
+.menu a img {
+    filter: grayscale(100%) opacity(0.6);
+}
+
+.menu a.active img {
+    filter: invert(36%) sepia(99%) saturate(597%) hue-rotate(216deg) brightness(107%) contrast(98%);
 }
 
 .sidebar-bottom {
@@ -404,7 +414,7 @@ input:-webkit-autofill:active {
     font-size: 14px;
     color: #374151;
     outline: none;
-    background: white;
+    background: white !important;
 }
 
 .btn-connect {
@@ -620,13 +630,15 @@ input:-webkit-autofill:active {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 16px 0;
-    border-bottom: 1px solid #f3f4f6;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    background: white;
 }
 
 .file-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .file-icon-box {
@@ -696,4 +708,53 @@ input:-webkit-autofill:active {
     align-items: center;
     gap: 5px;
     white-space: nowrap;
+}
+
+/* =========================
+   UPLOAD META FIELDS
+========================= */
+
+.upload-meta-section {
+    display: none;
+    gap: 16px;
+    margin-top: 20px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+}
+
+.upload-meta-section.show {
+    display: flex;
+}
+
+.upload-meta-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.upload-meta-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.upload-meta-input {
+    height: 44px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    color: #374151;
+    background: white !important;
+    font-family: inherit;
+    width: 100%;
+}
+
+.upload-meta-input:focus {
+    border-color: #3154ff;
+}
+
+.upload-meta-ext {
+    max-width: 140px;
 }

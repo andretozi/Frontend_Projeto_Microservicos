@@ -17,13 +17,13 @@
 
     <nav class="menu">
         <a href="/dashboard">
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Dashboard</span>
+            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
         </a>
         <a href="/empresas">
-            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom; filter: grayscale(100%) opacity(0.6);"> <span>Empresas</span>
+            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
         </a>
         <a class="active" href="/projetos">
-            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom; filter: brightness(0) invert(1);"> <span>Projetos</span>
+            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
         </a>
     </nav>
 
@@ -88,7 +88,8 @@
         </div>
 
         <!-- Área de Upload -->
-        <div class="upload-zone">
+        <input type="file" id="fileInput" style="display:none">
+        <div class="upload-zone" id="uploadZone">
             <div class="upload-zone-drop">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -97,7 +98,7 @@
                 </svg>
                 <h3>Arraste arquivos aqui ou clique para selecionar</h3>
                 <p>PDFs, DOCX, imagens, diagramas e outros documentos do projeto</p>
-                <button class="btn-upload">Selecionar Arquivos</button>
+                <button class="btn-upload" type="button">Selecionar Arquivos</button>
                 <span class="upload-ai-note">✧ A IA classificará e extrairá metadados automaticamente</span>
             </div>
 
@@ -112,6 +113,17 @@
                     <input type="checkbox" name="publico">
                     Tornar arquivo Público
                 </label>
+            </div>
+
+            <div class="upload-meta-section" id="uploadMetaSection">
+                <div class="upload-meta-field">
+                    <label for="uploadFileName">Nome do arquivo</label>
+                    <input type="text" id="uploadFileName" class="upload-meta-input" placeholder="Nome sem extensão">
+                </div>
+                <div class="upload-meta-field upload-meta-ext">
+                    <label for="uploadFileExt">Extensão</label>
+                    <input type="text" id="uploadFileExt" class="upload-meta-input" placeholder=".pdf">
+                </div>
             </div>
         </div>
 
@@ -142,6 +154,60 @@ window.addEventListener("click", function(e) {
         compMenu.classList.remove("show");
     }
 });
+
+(function () {
+    const fileInput = document.getElementById('fileInput');
+    const uploadZone = document.getElementById('uploadZone');
+    const metaSection = document.getElementById('uploadMetaSection');
+    const fileNameInput = document.getElementById('uploadFileName');
+    const fileExtInput = document.getElementById('uploadFileExt');
+
+    document.querySelector('.btn-upload').addEventListener('click', function (e) {
+        e.preventDefault();
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+        if (this.files && this.files[0]) {
+            handleFile(this.files[0].name);
+        }
+    });
+
+    uploadZone.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = '#3154ff';
+    });
+
+    uploadZone.addEventListener('dragleave', function (e) {
+        if (!uploadZone.contains(e.relatedTarget)) {
+            uploadZone.style.borderColor = '#93c5fd';
+        }
+    });
+
+    uploadZone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        uploadZone.style.borderColor = '#93c5fd';
+        const files = e.dataTransfer.files;
+        if (files && files[0]) {
+            handleFile(files[0].name);
+        }
+    });
+
+    function handleFile(filename) {
+        const lastDot = filename.lastIndexOf('.');
+        let name, ext;
+        if (lastDot > 0) {
+            name = filename.substring(0, lastDot);
+            ext = filename.substring(lastDot);
+        } else {
+            name = filename;
+            ext = '';
+        }
+        fileNameInput.value = name;
+        fileExtInput.value = ext;
+        metaSection.classList.add('show');
+    }
+})();
 </script>
 
 </body>
