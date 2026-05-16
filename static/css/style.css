@@ -803,3 +803,47 @@ input:-webkit-autofill:active {
 .file-item { transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
 .file-item:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-color: #cbd5e1; }
 .file-delete { position: relative; z-index: 10; } /* Para o botão não acionar o preview */
+
+/* Toggle Público/Privado */
+.repo-type-toggle { display: flex; gap: 24px; margin-bottom: 16px; }
+.radio-pill { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #374151; cursor: pointer; }
+.radio-pill input[type="radio"] { width: 16px; height: 16px; accent-color: #3154ff; cursor: pointer; }
+
+/* Linha URL + botão */
+.repo-connect-row { display: flex; gap: 12px; align-items: stretch; }
+.repo-connect-row .repo-url-input { flex: 1; }
+
+/* Bloco do token (full width abaixo da URL) */
+.repo-token-block {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.repo-token-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.repo-token-hint { font-size: 12px; color: #6b7280; }
+
+/* Linha do sincronizar */
+.repo-sync-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 14px; color: #111827; cursor: pointer; }
+.repo-sync-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #3154ff; cursor: pointer; }
+
+
+#repoToken {
+    flex: none;
+    width: 100%;
+    height: 44px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 14px;
+    color: #374151;
+    outline: none;
+    background: white !important;
+    box-sizing: border-box;
+}

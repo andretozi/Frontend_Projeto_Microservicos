@@ -90,7 +90,10 @@
                 <label for="projeto-select">Vincular a qual Projeto?</label>
 
                 <select id="projeto-select" class="upload-project-select">
-                    <option value="1" selected>Mockup: Sistema E-commerce (ID: 1)</option>
+                    <option value="">Selecione um projeto...</option>
+                    {% for projeto in projetos %}
+                        <option value="{{ projeto.id }}">{{ projeto.nome }} (ID: {{ projeto.id }})</option>
+                    {% endfor %}
                 </select>
                 </div>
 
@@ -115,6 +118,13 @@
 
 <div class="help-btn">?</div>
 
+<script>
+    window.API = {
+        UPLOAD: "{{ UPLOAD_API_URL }}",
+        IA: "{{ IA_API_URL }}",
+        GITHUB: "{{ GITHUB_API_URL }}"
+    };
+</script>
 <script src="{{ url_for('static', path='/js/projeto_upload.js') }}"></script>
 </body>
 </html>

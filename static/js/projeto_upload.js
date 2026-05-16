@@ -84,7 +84,7 @@ window.addEventListener("click", function(e) {
         statusText.style.color = "#3b82f6";
 
         try {
-            const response = await fetch("http://localhost:5001/api/upload", { method: "POST", body: formData });
+            const response = await fetch(`${window.API.UPLOAD}/api/upload`, { method: "POST", body: formData });
             if (response.ok) {
                 statusText.innerText = "Processado com sucesso!";
                 statusText.style.color = "#16a34a";

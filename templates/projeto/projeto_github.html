@@ -74,15 +74,46 @@
 
         <div class="repo-connect-card">
             <h2>Conectar Novo Repositório</h2>
-            <div class="repo-connect-row">
-                <input type="text" class="repo-url-input" placeholder="https://github.com/usuario/repositorio">
-                <button class="btn-connect">Conectar</button>
+
+            <div class="repo-type-toggle">
+                <label class="radio-pill">
+                    <input type="radio" name="repoTipo" id="tipoPublico" value="publico" checked>
+                    <span>Público</span>
+                </label>
+                <label class="radio-pill">
+                    <input type="radio" name="repoTipo" id="tipoPrivado" value="privado">
+                    <span>Privado</span>
+                </label>
             </div>
+
+            <div class="repo-connect-row">
+                <input type="text" id="repoUrl" class="repo-url-input" placeholder="https://github.com/usuario/repositorio">
+                <button id="btnConectar" class="btn-connect">Conectar</button>
+            </div>
+
+            <div id="campoToken" class="repo-token-block" style="display:none;">
+                <input type="password" id="repoToken" class="repo-url-input" placeholder="Insira o seu Personal Access Token (PAT) do GitHub" style="width: 100%; box-sizing: border-box;">
+                <span class="repo-token-hint">* O token será usado apenas para este clone e não será armazenado.</span>
+            </div>
+
+            <label class="repo-sync-row">
+                <input type="checkbox" id="chkSincronizar">
+                <span>Substituir arquivos antigos se o repositório já estiver conectado (Sincronizar)</span>
+            </label>
+
             <p class="repo-ai-note">✧ A IA irá analisar automaticamente o código, commits e estrutura do repositório</p>
+            <p id="repoStatus" style="margin-top: 15px; font-weight: 600;"></p>
         </div>
     </section>
 </main>
 
+<script>
+    window.API = {
+        UPLOAD: "{{ UPLOAD_API_URL }}",
+        IA: "{{ IA_API_URL }}",
+        GITHUB: "{{ GITHUB_API_URL }}"
+    };
+</script>
 <script src="{{ url_for('static', path='/js/projeto_github.js') }}"></script>
 </body>
 </html>

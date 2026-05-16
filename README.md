@@ -1,87 +1,142 @@
-# 📄 DocuIA - Documentação Inteligente com IA
+# DocuIA - Frontend
 
-![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-blue)
-![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-Web%20Framework-lightgrey?logo=flask)
+Aplicação web em FastAPI que serve como interface para o sistema DocuIA de documentação inteligente de projetos. Consome os microsserviços de Upload, Processamento de IA e Integração com GitHub. O frontend renderiza templates Jinja2 e delega todas as chamadas de dados aos microsserviços por meio do navegador.
 
-A **Plataforma de Documentação Inteligente de Projetos de Engenharia de Software** (DocuIA) é uma solução criada para resolver o problema da documentação de software, que frequentemente fica obsoleta em entregas ágeis. 
+## Tecnologias
 
-A nossa missão é integrar o código-fonte com a documentação, utilizando IA para reduzir o esforço manual, centralizando repositórios (GitHub), diagramas e arquivos diversos para gerar artefatos de forma automática. Este projeto é desenvolvido em grupos, onde cada equipe é responsável por um microsserviço que será integrado a um sistema único da turma.
+- Python 3.12+
+- FastAPI
+- Uvicorn
+- Jinja2
+- HTML, CSS e JavaScript (sem frameworks)
+- httpx (cliente HTTP para integração com microsserviços)
+- python-dotenv
 
----
+## Estrutura de pastas
 
-## Estratégia Top-Down e o Módulo de Ingestão de Dados
-
-Neste repositório, estamos adotando a abordagem de desenvolvimento **Top-Down** (Front-end ➔ Back-end ➔ Banco de Dados). Antes de construirmos as complexas integrações de IA e os pipelines de dados, estruturamos toda a interface visual e a navegação da plataforma (usando Flask, HTML e CSS).
-
-Nosso grupo é especificamente responsável pelo módulo de **Upload, Cadastro e Gerenciamento de Dados (Ingestão)**. A construção deste "Módulo 2" focado em interface agrega valor direto ao nosso microsserviço de Ingestão porque:
-
-* **Mapeamento de Entradas:** Define exatamente as telas e formulários por onde o usuário fará a integração com o GitHub (repositórios, branches) e o upload de arquivos soltos (PDFs de requisitos, atas, diagramas).
-* **Estruturação Visual:** Ajuda a validar como as informações e documentos enviados serão organizados por projetos e estrutura de pastas antes de modelarmos o banco de dados.
-* **Preparação para IA:** Ao ter o Front-end pronto, sabemos exatamente como o sistema receberá os dados que, futuramente, nossa IA classificará automaticamente, extraindo metadados fundamentais.
-
----
-
-## Funcionalidades Atuais do Front-end 
-
-Através do roteamento com o framework Flask, já temos o esqueleto navegável da plataforma:
-
-- **🔐 Autenticação:** Telas e fluxos simulados de Login, Cadastro e Recuperação de senha.
-- **📊 Dashboard:** Visão geral para os perfis de usuários (Tech Lead, PM, Desenvolvedor).
-- **🏢 Gestão de Empresas:** Telas de visualização, membros e painel de solicitações.
-- **📂 Gestão e Ingestão de Projetos:** Telas preparadas para a nossa funcionalidade principal de upload de dados, visão de permissões e controle de arquivos do projeto.
-
----
-
-## Tecnologias Utilizadas
-
-* **Front-end:** HTML5, CSS3.
-* **Back-end de Roteamento:** Python, Flask (Web Framework).
-* **Gerenciamento de Dependências:** `pip` e `requirements.txt`.
-
----
-
-## ⚙️ Como executar o projeto na sua máquina
-
-Para rodar a interface estática roteada pelo Flask localmente, você precisará ter o [Python](https://www.python.org/downloads/) instalado. Siga os passos:
-
-### 1. Clone o repositório
-```bash
-git clone https://github.com/andretozi/Frontend_Projeto_Microservicos.git
-cd Frontend_Projeto_Microservicos
+```
+Frontend_Projeto_Microservicos/
+├── main.py
+├── requirements.txt
+├── .env.example
+├── README.md
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   ├── projeto_arquivos.js
+│   │   ├── projeto_github.js
+│   │   └── projeto_upload.js
+│   └── assets/
+│       └── images/
+└── templates/
+    └── projeto/
+        ├── projeto_arquivos.html
+        ├── projeto_github.html
+        └── projeto_upload.html
 ```
 
-### 2. Crie e ative um Ambiente Virtual (Recomendado)
-O ambiente virtual previne que as bibliotecas deste projeto entrem em conflito com outras instaladas no seu PC.
+## Microsserviços integrados
+
+| Serviço | URL Base | Endpoints utilizados |
+|---------|----------|----------------------|
+| Upload  | https://docuia-api-upload.azurewebsites.net | `POST /api/upload`, `GET /api/projetos/{id}/artefatos`, `DELETE /api/artefatos/{id}` |
+| IA      | https://docuia-api-ia.azurewebsites.net | `POST /api/analisar` |
+| GitHub  | https://docuia-api-github.azurewebsites.net | `POST /api/github/conectar` |
+
+As URLs base são lidas das variáveis de ambiente correspondentes e injetadas em todos os templates através do helper `render()` definido em `main.py`. Os arquivos JavaScript consomem essas URLs via o objeto global `window.API` exposto no início de cada template.
+
+## Variáveis de ambiente
+
+Configuradas no arquivo `.env` (use `.env.example` como referência).
+
+| Variável | Descrição |
+|----------|-----------|
+| `UPLOAD_API_URL` | URL base do microsserviço de Upload e gerenciamento de artefatos. |
+| `IA_API_URL` | URL base do microsserviço de análise por Inteligência Artificial. |
+| `GITHUB_API_URL` | URL base do microsserviço de integração com repositórios GitHub. |
+| `PROJETOS_API_URL` | URL base do microsserviço de Projetos. Quando vazia, o frontend usa uma lista mock definida em `main.py`. |
+
+Quando alguma variável não está definida, o `main.py` adota como padrão a URL pública do serviço hospedado na Azure.
+
+## Instalação
+
+1. Clonar o repositório:
+   ```bash
+   git clone https://github.com/andretozi/Frontend_Projeto_Microservicos.git
+   cd Frontend_Projeto_Microservicos
+   ```
+2. Criar e ativar um ambiente virtual:
+   ```bash
+   python -m venv venv
+   # Windows
+   venv\Scripts\activate
+   # Linux/macOS
+   source venv/bin/activate
+   ```
+3. Instalar as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Copiar o arquivo de exemplo e ajustar os valores se necessário:
+   ```bash
+   cp .env.example .env
+   ```
+
+## Execução local
+
+Execute o servidor a partir da raiz do projeto:
+
 ```bash
-# Criando o ambiente virtual
-python -m venv venv
-
-# Ativando no Windows:
-venv\Scripts\activate
-
-# Ativando no Mac/Linux:
-source venv/bin/activate
+uvicorn main:app --reload --host 127.0.0.1 --port 5000
 ```
 
-### 3. Instale as dependências com `requirements.txt` 📦
-O arquivo `requirements.txt` funciona como uma "lista de compras" que diz ao Python exatamente quais bibliotecas externas (e em quais versões) o projeto precisa para rodar (neste caso, o Flask). 
+Acesse a aplicação em:
 
-Com o seu ambiente virtual ativado, rode o comando abaixo:
-```bash
-pip install -r requirements.txt
 ```
-> **Como isso funciona?** O `pip` (gerenciador de pacotes do Python) lê o arquivo de requisitos linha por linha, baixa todos os pacotes necessários diretamente da internet e os instala no seu ambiente virtual de forma automática, garantindo que o projeto rode perfeitamente na sua máquina.
-
-### 4. Execute a aplicação
-Com tudo instalado, inicie o servidor local do Flask:
-```bash
-python main.py
+http://127.0.0.1:5000
 ```
 
-### 5. Acesse no Navegador
-O terminal indicará que o servidor está online. Abra o seu navegador e acesse:
-👉 **[http://127.0.0.1:5000](http://127.0.0.1:5000)** ou **http://localhost:5000**
+O endereço `0.0.0.0` é um bind que aceita conexões em qualquer interface de rede, mas não deve ser digitado diretamente no navegador. Para acesso local utilize `127.0.0.1` ou `localhost`.
 
----
-*Projeto desenvolvido pela equipe de Ingestão de Dados para a disciplina de Engenharia de Software com Microsserviços.*
+## Rotas do frontend
+
+| Método | Rota | Template renderizado |
+|--------|------|----------------------|
+| GET | `/` | `projeto/projeto_github.html` (página inicial, equivalente à aba GitHub) |
+| GET | `/projeto/github` | `projeto/projeto_github.html` |
+| GET | `/projeto/upload` | `projeto/projeto_upload.html` |
+| GET | `/projeto/arquivos` | `projeto/projeto_arquivos.html` |
+| GET | `/healthcheck` | Resposta JSON com status dos microsserviços |
+
+## Healthcheck
+
+A rota `GET /healthcheck` realiza uma requisição HTTP (timeout de 3 segundos) para cada microsserviço configurado e devolve um JSON agregado com o status de conectividade:
+
+```json
+{
+  "frontend": "ok",
+  "upload_api": "ok",
+  "ia_api": "ok",
+  "github_api": "ok"
+}
+```
+
+Cada chave assume o valor `"ok"` quando a resposta HTTP tem status inferior a 500, ou `"down"` em caso de falha, timeout ou erro 5xx.
+
+## Endpoints pendentes de confirmação com o backend
+
+Os endpoints abaixo são utilizados pelo frontend, mas seu contrato (path, método e formato de resposta) ainda não foi formalmente confirmado pelo time responsável pelo microsserviço de Upload:
+
+- `GET {UPLOAD_API_URL}/api/projetos/{id}/artefatos` — listagem de artefatos de um projeto. Resposta esperada: `{ "artefatos": [{ "id", "nome_arquivo", "tipo", "tags", "resumo", "data_upload" }, ...] }`.
+- `DELETE {UPLOAD_API_URL}/api/artefatos/{id}` — remoção de um artefato pelo identificador. Resposta esperada: HTTP 200 ou 204.
+
+Ambos estão marcados com `// TODO: confirmar com backend` em `static/js/projeto_arquivos.js`.
+
+## Convenções de organização
+
+- Todo CSS deve residir em `static/css/style.css`. Não utilizar blocos `<style>` inline nos templates.
+- Todo JavaScript deve residir em arquivos dentro de `static/js/`. Não utilizar blocos `<script>` inline nos templates (exceção: o bloco curto que expõe `window.API` antes do `<script src="...">` de cada página).
+- Templates HTML em `templates/` e suas subpastas (atualmente `templates/projeto/`).
+- Referências a arquivos estáticos sempre por `url_for('static', path='/...')`, conforme padrão do Starlette/FastAPI.
+- URLs de microsserviços nunca devem ser hardcoded no código. Devem vir de variáveis de ambiente no backend Python e de `window.API` no JavaScript.

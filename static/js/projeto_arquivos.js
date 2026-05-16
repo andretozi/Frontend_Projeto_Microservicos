@@ -17,10 +17,12 @@ document.addEventListener("DOMContentLoaded", async () => { await carregarArquiv
 
 async function carregarArquivos() {
     try {
-        const response = await fetch(`http://localhost:5001/api/projetos/1/artefatos`);
+        // TODO: confirmar com backend (endpoint suposto)
+        const response = await fetch(`${window.API.UPLOAD}/api/projetos/1/artefatos`);
         const data = await response.json();
         if (data.artefatos) {
             arquivosGlobais = data.artefatos;
+            popularFiltroOrigem();
             aplicarFiltroERenderizar();
         }
     } catch (error) { document.getElementById('dynamic-files-container').innerHTML = "<p>Erro ao carregar dados.</p>"; }
@@ -28,15 +30,45 @@ async function carregarArquivos() {
 
 document.getElementById('select-filtro').addEventListener('change', aplicarFiltroERenderizar);
 document.getElementById('input-pesquisa').addEventListener('input', aplicarFiltroERenderizar);
+document.getElementById('select-origem').addEventListener('change', aplicarFiltroERenderizar);
+
+function popularFiltroOrigem() {
+    const selectOrigem = document.getElementById('select-origem');
+    const repositoriosUnicos = new Set();
+    arquivosGlobais.forEach(arq => {
+        (arq.tags || []).forEach(t => {
+            if (typeof t === 'string' && t.toLowerCase().startsWith('repositório')) {
+                repositoriosUnicos.add(t);
+            }
+        });
+    });
+    selectOrigem.innerHTML = '<option value="todas">Todas as Origens</option><option value="upload">Somente Uploads</option>';
+    repositoriosUnicos.forEach(nome => {
+        const opt = document.createElement('option');
+        opt.value = nome;
+        opt.textContent = nome;
+        selectOrigem.appendChild(opt);
+    });
+}
 
 function aplicarFiltroERenderizar() {
     const valorSelect = document.getElementById('select-filtro').value;
     const termoPesquisa = document.getElementById('input-pesquisa').value.toLowerCase();
+    const valorOrigem = document.getElementById('select-origem').value;
 
     let arquivosFiltrados = arquivosGlobais.filter(arq => {
         const nomeMatch = arq.nome_arquivo.toLowerCase().includes(termoPesquisa);
         const tagMatch = arq.tags.some(t => t.toLowerCase().includes(termoPesquisa));
-        return nomeMatch || tagMatch;
+        const pesquisaOk = nomeMatch || tagMatch;
+
+        let origemOk = true;
+        if (valorOrigem === 'upload') {
+            origemOk = arq.tags.some(t => t.toLowerCase() === 'upload');
+        } else if (valorOrigem !== 'todas') {
+            origemOk = arq.tags.some(t => t === valorOrigem);
+        }
+
+        return pesquisaOk && origemOk;
     });
 
     if(valorSelect === 'recentes') arquivosFiltrados.sort((a,b) => new Date(b.data_upload) - new Date(a.data_upload));
@@ -52,7 +84,7 @@ function renderizarLista(listaParaRenderizar) {
     container.innerHTML = "";
 
     if(listaParaRenderizar.length === 0) {
-        container.innerHTML = "<p style='color:#6b7280; padding: 20px 0;'>Nenhum documento encontrado.</p>";
+        container.innerHTML = "<p style='color:#6b7280; padding: 20px 0;'>Nenhum documento encontrado com estes filtros.</p>";
         return;
     }
 
@@ -93,9 +125,26 @@ function abrirPreview(id) {
         document.getElementById('prevDate').innerText = new Date(arquivo.data_upload).toLocaleDateString('pt-BR');
         document.getElementById('prevSummary').innerText = arquivo.resumo || "Resumo não gerado.";
 
+        const prevSource = document.getElementById('prevSource');
+        const tagRepo = arquivo.tags.find(t => typeof t === 'string' && t.toLowerCase().startsWith('repositório'));
+        if (tagRepo) {
+            prevSource.style.display = '';
+            prevSource.style.background = '#fce7f3';
+            prevSource.style.color = '#9d174d';
+            prevSource.innerText = '📁 ' + tagRepo;
+        } else if (arquivo.tags.some(t => typeof t === 'string' && t.toLowerCase() === 'upload')) {
+            prevSource.style.display = '';
+            prevSource.style.background = '#dbeafe';
+            prevSource.style.color = '#1e40af';
+            prevSource.innerText = '☁️ Upload Manual';
+        } else {
+            prevSource.style.display = 'none';
+        }
+
         document.getElementById('prevTags').innerHTML = arquivo.tags.map(t => {
             let style = "background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;";
             if (t.toLowerCase() === "upload") style = "background: #dbeafe; color: #1e40af; padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;";
+            else if (t.toLowerCase().includes("repositório")) style = "background: #fce7f3; color: #9d174d; padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 500;";
             return `<span style="${style}">${t}</span>`;
         }).join("");
 
@@ -125,7 +174,8 @@ btnConfirmDelete.addEventListener('click', async () => {
     if(!arquivoParaDeletarId) return;
     btnConfirmDelete.innerText = "Deletando...";
     try {
-        const res = await fetch(`http://localhost:5001/api/artefatos/${arquivoParaDeletarId}`, { method: 'DELETE' });
+        // TODO: confirmar com backend (endpoint suposto)
+        const res = await fetch(`${window.API.UPLOAD}/api/artefatos/${arquivoParaDeletarId}`, { method: 'DELETE' });
         if(res.ok) { fecharModal(); await carregarArquivos(); btnConfirmDelete.innerText = "Deletar Arquivo"; }
     } catch (e) { alert("Erro de rede."); }
 });
