@@ -1,4 +1,3 @@
-import os
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -13,7 +12,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Configura a pasta onde estão os HTMLs
 templates = Jinja2Templates(directory="templates")
 
-# Rotas de renderização de tela (equivalentes ao que estava no Flask)
+# Rotas de renderização de tela
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     # Redireciona a raiz para a tela do GitHub
@@ -32,5 +31,4 @@ async def projeto_arquivos(request: Request):
     return templates.TemplateResponse("projeto/projeto_arquivos.html", {"request": request})
 
 if __name__ == "__main__":
-    # O Front-end vai rodar na porta 5000 para não conflitar com os outros
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)
