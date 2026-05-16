@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>DocuIA - Upload de Arquivos</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
 </head>
 
 <body class="dashboard-body">
@@ -15,13 +15,13 @@
     </div>
     <nav class="menu">
         <a href="/dashboard">
-            <img src="/static/assets/images/dashboard.png" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
+            <img src="{{ url_for('static', path='/assets/images/dashboard.png') }}" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
         </a>
         <a href="/empresas">
-            <img src="/static/assets/images/business-and-trade.png" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
+            <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
         </a>
         <a class="active" href="/projetos">
-            <img src="/static/assets/images/folder.png" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
+            <img src="{{ url_for('static', path='/assets/images/folder.png') }}" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
         </a>
     </nav>
     <div class="sidebar-bottom">
@@ -33,7 +33,7 @@
             </div>
             <button class="company-select company-toggle" onclick="toggleCompanyMenu()">
                 <span>
-                    <img src="/static/assets/images/business-and-trade.png" alt="" style="width:15px; height:15px; filter: grayscale(100%) opacity(0.6);">
+                    <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="" style="width:15px; height:15px; filter: grayscale(100%) opacity(0.6);">
                     <strong>Empresa Demo</strong>
                 </span>
                 <span style="color:#64748b; font-size:13px;">⌄</span>
@@ -59,7 +59,7 @@
 
 <main class="dashboard-main">
     <section class="project-internal-content" style="padding: 32px 40px;">
-        <a href="/projeto" class="back-to-projects">← Voltar para Sistema E-commerce</a>
+        <a href="/projeto" class="back-to-projects">← Voltar para Projetos</a>
 
         <div style="margin-bottom: 24px;">
             <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 6px;">Integração e Dados</h1>
@@ -115,106 +115,6 @@
 
 <div class="help-btn">?</div>
 
-<script>
-function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
-function toggleUserMenu() { document.getElementById("userMenu").classList.toggle("show"); }
-
-window.addEventListener("click", function(e) {
-    const userMenu = document.getElementById("userMenu");
-    const userBtn = document.querySelector(".user-toggle");
-    if (userMenu && userBtn && !userMenu.contains(e.target) && !userBtn.contains(e.target)) {
-        userMenu.classList.remove("show");
-    }
-    const compMenu = document.getElementById("companyMenu");
-    const compBtn = document.querySelector(".company-toggle");
-    if (compMenu && compBtn && !compMenu.contains(e.target) && !compBtn.contains(e.target)) {
-        compMenu.classList.remove("show");
-    }
-});
-
-(function () {
-    const fileInput = document.getElementById('fileInput');
-    const uploadZone = document.getElementById('uploadZone');
-    const metaSection = document.getElementById('uploadMetaSection');
-    const fileNameInput = document.getElementById('uploadFileName');
-    const fileExtInput = document.getElementById('uploadFileExt');
-    const btnEnviar = document.getElementById('btnEnviarBackEnd');
-    const btnLimpar = document.getElementById('btnLimpar');
-    const statusText = document.getElementById('uploadStatus');
-    let arquivoReal = null;
-
-    document.getElementById('btnSelect').addEventListener('click', (e) => { e.preventDefault(); fileInput.click(); });
-
-    fileInput.addEventListener('change', function () {
-        if (this.files && this.files[0]) {
-            arquivoReal = this.files[0];
-            handleFile(this.files[0].name);
-        }
-    });
-
-    uploadZone.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        uploadZone.style.borderColor = '#3154ff';
-    });
-
-    uploadZone.addEventListener('dragleave', function (e) {
-        if (!uploadZone.contains(e.relatedTarget)) {
-            uploadZone.style.borderColor = '#93c5fd';
-        }
-    });
-
-    uploadZone.addEventListener('drop', function (e) {
-        e.preventDefault();
-        uploadZone.style.borderColor = '#93c5fd';
-        const files = e.dataTransfer.files;
-        if (files && files[0]) {
-            arquivoReal = files[0];
-            handleFile(files[0].name);
-        }
-    });
-
-    function handleFile(filename) {
-        const lastDot = filename.lastIndexOf('.');
-        fileNameInput.value = lastDot > 0 ? filename.substring(0, lastDot) : filename;
-        fileExtInput.value = lastDot > 0 ? filename.substring(lastDot) : '';
-        metaSection.style.display = 'flex';
-        statusText.innerText = "";
-    }
-
-    btnLimpar.addEventListener('click', function(e) {
-        e.preventDefault();
-        arquivoReal = null;
-        fileInput.value = "";
-        metaSection.style.display = 'none';
-        statusText.innerText = "";
-    });
-
-    btnEnviar.addEventListener('click', async function() {
-        if (!arquivoReal) return;
-        const projetoId = document.getElementById('projeto-select').value;
-        const formData = new FormData();
-        formData.append("projeto_id", projetoId);
-        formData.append("documento", arquivoReal);
-
-        statusText.innerText = "Enviando e processando na IA... Aguarde.";
-        statusText.style.color = "#3b82f6";
-
-        try {
-            const response = await fetch("http://localhost:5001/api/upload", { method: "POST", body: formData });
-            if (response.ok) {
-                statusText.innerText = "Processado com sucesso!";
-                statusText.style.color = "#16a34a";
-                setTimeout(() => window.location.href = "/projeto/arquivos", 1500);
-            } else {
-                statusText.innerText = "Erro ao processar arquivo. Verifique o console.";
-                statusText.style.color = "#ef4444";
-            }
-        } catch (error) {
-            statusText.innerText = "Erro de conexão com o servidor de Ingestão.";
-            statusText.style.color = "#ef4444";
-        }
-    });
-})();
-</script>
+<script src="{{ url_for('static', path='/js/projeto_upload.js') }}"></script>
 </body>
 </html>
