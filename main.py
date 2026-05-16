@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 load_dotenv()
 
@@ -34,6 +35,8 @@ async def get_projetos():
         return r.json()
 
 app = FastAPI(title="Frontend - DocuIA")
+
+app.add_middleware(ProxyHeadersMiddleware, trusted_hosts="*")
 
 # Monta a pasta estática para o CSS e Imagens funcionarem
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -97,4 +100,11 @@ async def healthcheck():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=5000, reload=True)
+    uvicorn.run(
+        "main:app",
+        host="127.0.0.1",
+        port=5000,
+        reload=True,
+        proxy_headers=True,
+        forwarded_allow_ips="*"
+    )
