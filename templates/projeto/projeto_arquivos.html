@@ -70,6 +70,10 @@
             <div class="files-card-header" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                 <h2 style="margin-right: auto;">Arquivos Processados</h2>
                 <input type="text" id="input-pesquisa" class="input-pesquisa" placeholder="Pesquisar por nome ou tag...">
+                <select id="select-origem" class="select-filtro-documentos">
+                    <option value="todas">Todas as Origens</option>
+                    <option value="upload">Somente Uploads</option>
+                </select>
                 <select id="select-filtro" class="select-filtro-documentos">
                     <option value="recentes">Mais Recentes</option>
                     <option value="antigos">Mais Antigos</option>
@@ -88,6 +92,7 @@
             <h3 id="prevName">Nome do Arquivo</h3>
             <div class="preview-meta">
                 <span id="prevType" style="background: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-weight: 600; color: #334155;">Tipo</span>
+                <span id="prevSource" style="display: none; padding: 2px 8px; border-radius: 4px; font-weight: 600;">Origem</span>
                 <span id="prevDate">Data</span>
             </div>
         </div>
@@ -122,6 +127,13 @@
     </div>
 </div>
 
+<script>
+    window.API = {
+        UPLOAD: "{{ UPLOAD_API_URL }}",
+        IA: "{{ IA_API_URL }}",
+        GITHUB: "{{ GITHUB_API_URL }}"
+    };
+</script>
 <script src="{{ url_for('static', path='/js/projeto_arquivos.js') }}"></script>
 </body>
 </html>
