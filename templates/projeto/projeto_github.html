@@ -8,54 +8,7 @@
 
 <body class="dashboard-body">
 
-<aside class="sidebar">
-    <div class="sidebar-logo">
-        <h2>DocuIA</h2>
-        <p>Documentação Inteligente</p>
-    </div>
-    <nav class="menu">
-        <a href="/dashboard">
-            <img src="{{ url_for('static', path='/assets/images/dashboard.png') }}" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
-        </a>
-        <a href="/empresas">
-            <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
-        </a>
-        <a class="active" href="/projetos">
-            <img src="{{ url_for('static', path='/assets/images/folder.png') }}" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
-        </a>
-    </nav>
-    <div class="sidebar-bottom">
-        <div class="company-dropdown-area">
-            <div class="company-menu" id="companyMenu">
-                <a href="#">Empresa Demo</a>
-                <div class="company-divider"></div>
-                <a href="#" class="create-company-link">+ Nova Empresa</a>
-            </div>
-            <button class="company-select company-toggle" onclick="toggleCompanyMenu()">
-                <span>
-                    <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="" style="width:15px; height:15px; filter: grayscale(100%) opacity(0.6);">
-                    <strong>Empresa Demo</strong>
-                </span>
-                <span style="color:#64748b; font-size:13px;">⌄</span>
-            </button>
-        </div>
-        <div class="user-dropdown-area">
-            <div class="user-menu" id="userMenu">
-                <a href="/perfil">♙ Meu Perfil</a>
-                <div class="menu-divider"></div>
-                <a href="/login" class="logout-link">↪ Sair</a>
-            </div>
-            <button class="user-box user-toggle" onclick="toggleUserMenu()">
-                <div class="profile-mini-avatar">U</div>
-                <div class="user-info">
-                    <strong>Usuário</strong>
-                    <p>aa@aa</p>
-                </div>
-                <span class="dropdown-arrow">⌄</span>
-            </button>
-        </div>
-    </div>
-</aside>
+{% include "interface/sidebar.html" %}
 
 <main class="dashboard-main">
     <section class="project-internal-content" style="padding: 32px 40px;">
