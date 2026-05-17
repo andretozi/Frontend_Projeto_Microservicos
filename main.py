@@ -15,6 +15,7 @@ load_dotenv()
 UPLOAD_API_URL = os.getenv("UPLOAD_API_URL", "https://docuia-api-upload.azurewebsites.net")
 IA_API_URL = os.getenv("IA_API_URL", "https://docuia-api-ia.azurewebsites.net")
 GITHUB_API_URL = os.getenv("GITHUB_API_URL", "https://docuia-api-github.azurewebsites.net")
+FRONT_PRINCIPAL_URL = os.getenv("FRONT_PRINCIPAL_URL", "https://docuia-frontend-hdc8hzfqbqebc6cp.brazilsouth-01.azurewebsites.net")
 
 # TODO: trocar por chamada à API do ms3_projetos quando estiver pronta
 PROJETOS_API_URL = os.getenv("PROJETOS_API_URL", "")
@@ -52,6 +53,7 @@ def render(template: str, request: Request, **extra):
         "UPLOAD_API_URL": UPLOAD_API_URL,
         "IA_API_URL": IA_API_URL,
         "GITHUB_API_URL": GITHUB_API_URL,
+        "FRONT_PRINCIPAL_URL": FRONT_PRINCIPAL_URL,
         **extra,
     }
     return templates.TemplateResponse(template, context)
