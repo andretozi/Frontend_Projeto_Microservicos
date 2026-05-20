@@ -1,0 +1,14 @@
+
+# Claude AI
+.claude/
+
+# Virtual environments
+.venv/
+.venv1/
+venv/
+venv1/
+
+# IDE
+.idea/
+
+
