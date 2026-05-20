@@ -1,4 +1,4 @@
-// projeto_upload.js — extraído de templates/projeto/projeto_upload.html
+// projeto_upload.js
 
 function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
 function toggleUserMenu() { document.getElementById("userMenu").classList.toggle("show"); }
@@ -17,15 +17,30 @@ window.addEventListener("click", function(e) {
 });
 
 (function () {
-    const fileInput = document.getElementById('fileInput');
-    const uploadZone = document.getElementById('uploadZone');
-    const metaSection = document.getElementById('uploadMetaSection');
+    const fileInput    = document.getElementById('fileInput');
+    const uploadZone   = document.getElementById('uploadZone');
+    const metaSection  = document.getElementById('uploadMetaSection');
     const fileNameInput = document.getElementById('uploadFileName');
-    const fileExtInput = document.getElementById('uploadFileExt');
-    const btnEnviar = document.getElementById('btnEnviarBackEnd');
-    const btnLimpar = document.getElementById('btnLimpar');
-    const statusText = document.getElementById('uploadStatus');
+    const fileExtInput  = document.getElementById('uploadFileExt');
+    const btnEnviar    = document.getElementById('btnEnviarBackEnd');
+    const btnLimpar    = document.getElementById('btnLimpar');
+    const statusText   = document.getElementById('uploadStatus');
     let arquivoReal = null;
+
+    // Preenche o campo de projeto após sessão validada
+    Sessao.pronto.then(async () => {
+        const projetoId = Sessao.getProjetoId();
+        document.getElementById('projeto-id-hidden').value = projetoId;
+        try {
+            const resp = await fetch(`/api/projeto/${projetoId}/nome`, {
+                headers: { 'Authorization': `Bearer ${Sessao.getToken()}` }
+            });
+            const data = await resp.json();
+            document.getElementById('projeto-nome').value = data.nome || `Projeto #${projetoId}`;
+        } catch {
+            document.getElementById('projeto-nome').value = `Projeto #${projetoId}`;
+        }
+    });
 
     document.getElementById('btnSelect').addEventListener('click', (e) => { e.preventDefault(); fileInput.click(); });
 
@@ -60,7 +75,7 @@ window.addEventListener("click", function(e) {
     function handleFile(filename) {
         const lastDot = filename.lastIndexOf('.');
         fileNameInput.value = lastDot > 0 ? filename.substring(0, lastDot) : filename;
-        fileExtInput.value = lastDot > 0 ? filename.substring(lastDot) : '';
+        fileExtInput.value  = lastDot > 0 ? filename.substring(lastDot) : '';
         metaSection.style.display = 'flex';
         statusText.innerText = "";
     }
@@ -75,9 +90,8 @@ window.addEventListener("click", function(e) {
 
     btnEnviar.addEventListener('click', async function() {
         if (!arquivoReal) return;
-        const projetoId = document.getElementById('projeto-select').value;
         const formData = new FormData();
-        formData.append("projeto_id", projetoId);
+        formData.append("projeto_id", Sessao.getProjetoId());
         formData.append("documento", arquivoReal);
 
         // Captura o token JWT salvo no navegador

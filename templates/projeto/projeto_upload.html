@@ -40,15 +40,12 @@
             </div>
 
             <div class="upload-form-section" style="margin-top: 20px;">
-                <label for="projeto-select">Vincular a qual Projeto?</label>
-
-                <select id="projeto-select" class="upload-project-select">
-                    <option value="">Selecione um projeto...</option>
-                    {% for projeto in projetos %}
-                        <option value="{{ projeto.id }}">{{ projeto.nome }} (ID: {{ projeto.id }})</option>
-                    {% endfor %}
-                </select>
-                </div>
+                <label for="projeto-nome">Projeto Vinculado:</label>
+                <input type="text" id="projeto-nome" class="upload-project-select"
+                       readonly placeholder="Carregando projeto..."
+                       style="background:#f9fafb; cursor:default;">
+                <input type="hidden" id="projeto-id-hidden">
+            </div>
 
             <div class="upload-meta-section" id="uploadMetaSection" style="display: none; gap: 16px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
                 <div class="upload-meta-field">
@@ -75,9 +72,11 @@
     window.API = {
         UPLOAD: "{{ UPLOAD_API_URL }}",
         IA: "{{ IA_API_URL }}",
-        GITHUB: "{{ GITHUB_API_URL }}"
+        GITHUB: "{{ GITHUB_API_URL }}",
+        LOGIN_URL: "{{ LOGIN_URL }}"
     };
 </script>
+<script src="{{ url_for('static', path='/js/sessao.js') }}"></script>
 <script src="{{ url_for('static', path='/js/projeto_upload.js') }}"></script>
 </body>
 </html>
