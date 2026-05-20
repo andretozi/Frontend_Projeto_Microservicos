@@ -80,11 +80,28 @@ window.addEventListener("click", function(e) {
         formData.append("projeto_id", projetoId);
         formData.append("documento", arquivoReal);
 
+        // Captura o token JWT salvo no navegador
+        const token = localStorage.getItem("token");
+
+        // Trava de segurança no próprio front-end
+        if (!token) {
+            statusText.innerText = "Erro: Token de autenticação não encontrado. Faça login novamente.";
+            statusText.style.color = "#ef4444";
+            return;
+        }
+
         statusText.innerText = "Enviando e processando na IA... Aguarde.";
         statusText.style.color = "#3b82f6";
 
         try {
-            const response = await fetch(`${window.API.UPLOAD}/api/upload`, { method: "POST", body: formData });
+            const response = await fetch(`${window.API.UPLOAD}/api/upload`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}` // <--- O crachá de segurança que o FastAPI exige
+                },
+                body: formData
+            });
+
             if (response.ok) {
                 statusText.innerText = "Processado com sucesso!";
                 statusText.style.color = "#16a34a";
