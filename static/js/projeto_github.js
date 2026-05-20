@@ -46,10 +46,10 @@ window.addEventListener("click", function(e) {
         }
 
         const isPrivado = tipoPrivado.checked;
-        let token = null;
+        let githubToken = null;
         if (isPrivado) {
-            token = repoToken.value.trim();
-            if (!token) {
+            githubToken = repoToken.value.trim();
+            if (!githubToken) {
                 setStatus("Informe o token de acesso.", "#ef4444");
                 return;
             }
@@ -57,12 +57,11 @@ window.addEventListener("click", function(e) {
 
         const sincronizar = chkSincronizar.checked;
 
-        // TODO: trocar por id dinâmico do projeto selecionado quando o multi-projeto estiver pronto
         const payload = {
-            projeto_id: 1,
+            projeto_id: parseInt(Sessao.getProjetoId(), 10),
             url: url,
             is_private: isPrivado,
-            token: isPrivado ? token : null,
+            token: isPrivado ? githubToken : null,
             sincronizar: sincronizar
         };
 
@@ -74,7 +73,10 @@ window.addEventListener("click", function(e) {
             console.log("Payload enviado:", payload);
             const response = await fetch(endpoint, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Sessao.getToken()}`
+                },
                 body: JSON.stringify(payload)
             });
             console.log("Status HTTP:", response.status, "OK:", response.ok);

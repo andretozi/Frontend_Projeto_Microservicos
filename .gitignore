@@ -1,4 +1,7 @@
 
+# Variáveis de ambiente (nunca subir ao repositório)
+.env
+
 # Claude AI
 .claude/
 

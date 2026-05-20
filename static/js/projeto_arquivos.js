@@ -13,11 +13,17 @@ window.addEventListener("click", function(e) {
 let arquivosGlobais = [];
 let arquivoParaDeletarId = null;
 
-document.addEventListener("DOMContentLoaded", async () => { await carregarArquivos(); });
+document.addEventListener("DOMContentLoaded", async () => {
+    await Sessao.pronto;
+    await carregarArquivos();
+});
 
 async function carregarArquivos() {
     try {
-        const response = await fetch(`${window.API.UPLOAD}/api/projetos/1/artefatos`);
+        const response = await fetch(
+            `${window.API.UPLOAD}/api/projetos/${Sessao.getProjetoId()}/artefatos`,
+            { headers: { "Authorization": `Bearer ${Sessao.getToken()}` } }
+        );
         const data = await response.json();
         if (data.artefatos) {
             arquivosGlobais = data.artefatos;
@@ -181,7 +187,10 @@ btnConfirmDelete.addEventListener('click', async () => {
     if(!arquivoParaDeletarId) return;
     btnConfirmDelete.innerText = "Deletando...";
     try {
-        const res = await fetch(`${window.API.UPLOAD}/api/artefatos/${arquivoParaDeletarId}`, { method: 'DELETE' });
+        const res = await fetch(`${window.API.UPLOAD}/api/artefatos/${arquivoParaDeletarId}`, {
+            method: 'DELETE',
+            headers: { "Authorization": `Bearer ${Sessao.getToken()}` }
+        });
         if(res.ok) { fecharModal(); await carregarArquivos(); btnConfirmDelete.innerText = "Deletar Arquivo"; }
     } catch (e) { alert("Erro de rede."); }
 });
