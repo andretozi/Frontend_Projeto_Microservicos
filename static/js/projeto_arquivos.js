@@ -1,4 +1,4 @@
-// projeto_arquivos.js — extraído de templates/projeto/projeto_arquivos.html
+// projeto_arquivos.js
 
 // Menus
 function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => { await carregarArquiv
 
 async function carregarArquivos() {
     try {
-        // TODO: confirmar com backend (endpoint suposto)
         const response = await fetch(`${window.API.UPLOAD}/api/projetos/1/artefatos`);
         const data = await response.json();
         if (data.artefatos) {
@@ -97,7 +96,6 @@ function renderizarLista(listaParaRenderizar) {
             return `<span class="file-ai-tag" style="${style}">${t}</span>`;
         }).join(" ");
 
-        // O evento onClick no item inteiro chama o Preview. O onclick do botão deletar usa event.stopPropagation() para não abrir o preview.
         const cardHtml = `
         <div class="file-item" onclick="abrirPreview(${arq.id})">
             <div class="file-icon-box"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
@@ -148,6 +146,15 @@ function abrirPreview(id) {
             return `<span style="${style}">${t}</span>`;
         }).join("");
 
+        // --- NOVA LÓGICA DO BOTÃO DE VISUALIZAÇÃO ---
+        const btnVisualizar = document.getElementById('btnVisualizar');
+        if (arquivo.url_documento) {
+            btnVisualizar.href = arquivo.url_documento;
+            btnVisualizar.style.display = 'flex'; // Mostra o botão se tiver URL
+        } else {
+            btnVisualizar.style.display = 'none'; // Esconde se for um arquivo antigo sem URL
+        }
+
         previewModal.style.display = 'flex';
     }
 }
@@ -174,7 +181,6 @@ btnConfirmDelete.addEventListener('click', async () => {
     if(!arquivoParaDeletarId) return;
     btnConfirmDelete.innerText = "Deletando...";
     try {
-        // TODO: confirmar com backend (endpoint suposto)
         const res = await fetch(`${window.API.UPLOAD}/api/artefatos/${arquivoParaDeletarId}`, { method: 'DELETE' });
         if(res.ok) { fecharModal(); await carregarArquivos(); btnConfirmDelete.innerText = "Deletar Arquivo"; }
     } catch (e) { alert("Erro de rede."); }
