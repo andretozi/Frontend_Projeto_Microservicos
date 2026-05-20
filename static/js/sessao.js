@@ -14,8 +14,14 @@ const Sessao = (() => {
         if (id && token) {
             localStorage.setItem('projeto_id', id);
             localStorage.setItem('token', token);
-            // Remove id e token da barra de endereço sem recarregar
-            history.replaceState(null, '', window.location.pathname);
+            try {
+                // Normaliza barra dupla (ex: //projeto/upload → /projeto/upload)
+                // que ocorre quando o grupo de Projetos concatena a URL base com barra sobrando.
+                const safePath = '/' + window.location.pathname.replace(/^\/+/, '');
+                history.replaceState(null, '', safePath);
+            } catch (e) {
+                console.warn('[sessao] replaceState falhou (ignorado):', e.message);
+            }
             return { id, token };
         }
         return null;
@@ -58,35 +64,33 @@ const Sessao = (() => {
         _projetoId = id;
         _token = token;
 
-        try {
-            const resp = await fetch('/api/validar-sessao', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await resp.json();
-
-            if (!data.valido) {
-                _limparERediredir();
-                return;
-            }
-
-            _usuario = { user_id: data.user_id, email: data.email, nome: data.nome };
-            localStorage.setItem('user_id', String(data.user_id));
-            localStorage.setItem('nome', data.nome || '');
-
-        } catch {
-            // Servidor inacessível: decodifica client-side só para verificar expiração
-            const payload = _decodificarPayload(token);
-            if (!payload || (payload.exp && Date.now() / 1000 > payload.exp)) {
-                _limparERediredir();
-                return;
-            }
-            _usuario = { user_id: payload.sub, email: payload.email, nome: payload.nome };
+        // Validação client-side: decodifica o payload e checa expiração.
+        // A verificação de assinatura acontece no servidor a cada ação autenticada.
+        const payload = _decodificarPayload(token);
+        if (!payload) {
+            console.warn('[sessao] Token malformado.');
+            _limparERediredir();
+            return;
         }
+        if (payload.exp && Date.now() / 1000 > payload.exp) {
+            console.warn('[sessao] Token expirado.');
+            _limparERediredir();
+            return;
+        }
+
+        _usuario = {
+            user_id: payload.sub,
+            email:   payload.email,
+            nome:    payload.nome
+        };
+        localStorage.setItem('user_id', String(payload.sub || ''));
+        localStorage.setItem('nome', payload.nome || '');
 
         _prontoResolve();
     }
 
-    _inicializar();
+    // .catch() garante que erros inesperados não virem unhandled rejection
+    _inicializar().catch(e => console.error('[sessao] Erro inesperado na inicialização:', e));
 
     return {
         /** Promise que resolve após sessão validada. Aguarde antes de fazer chamadas autenticadas. */
@@ -94,7 +98,7 @@ const Sessao = (() => {
         getProjetoId() { return _projetoId; },
         getToken()     { return _token; },
         getUsuario()   { return _usuario; },
-        /** Retorna headers com Authorization. Para FormData, chame sem parâmetro (isJson=false). */
+        /** Para FormData, passe isJson=false (o browser define o Content-Type com boundary). */
         getHeaders(isJson = true) {
             const h = { 'Authorization': `Bearer ${_token}` };
             if (isJson) h['Content-Type'] = 'application/json';
