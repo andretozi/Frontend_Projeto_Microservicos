@@ -27,21 +27,6 @@ window.addEventListener("click", function(e) {
     const statusText   = document.getElementById('uploadStatus');
     let arquivoReal = null;
 
-    // Preenche o campo de projeto após sessão validada
-    Sessao.pronto.then(async () => {
-        const projetoId = Sessao.getProjetoId();
-        document.getElementById('projeto-id-hidden').value = projetoId;
-        try {
-            const resp = await fetch(`/api/projeto/${projetoId}/nome`, {
-                headers: { 'Authorization': `Bearer ${Sessao.getToken()}` }
-            });
-            const data = await resp.json();
-            document.getElementById('projeto-nome').value = data.nome || `Projeto #${projetoId}`;
-        } catch {
-            document.getElementById('projeto-nome').value = `Projeto #${projetoId}`;
-        }
-    });
-
     document.getElementById('btnSelect').addEventListener('click', (e) => { e.preventDefault(); fileInput.click(); });
 
     fileInput.addEventListener('change', function () {

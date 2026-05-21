@@ -87,6 +87,13 @@ const Sessao = (() => {
         localStorage.setItem('nome', payload.nome || '');
 
         _prontoResolve();
+
+        // Atualiza o botão "Voltar para Projetos" com o id do projeto atual
+        const btn = document.querySelector('.back-to-projects');
+        if (btn) {
+            const base = (window.API?.FRONT_PRINCIPAL_URL || '').replace(/\/$/, '');
+            btn.href = base + '/projeto' + (_projetoId ? `?id=${_projetoId}` : '');
+        }
     }
 
     // .catch() garante que erros inesperados não virem unhandled rejection
