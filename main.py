@@ -1,7 +1,5 @@
-import json
 import os
 
-import asyncpg
 import httpx
 import jwt
 import uvicorn
@@ -24,7 +22,6 @@ LOGIN_URL = os.getenv("LOGIN_URL", "https://docuia-frontend-hdc8hzfqbqebc6cp.bra
 
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
-DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 
 if not JWT_SECRET_KEY:
@@ -109,66 +106,6 @@ async def api_validar_sessao(request: Request):
             status_code=401,
         )
     return JSONResponse(resultado)
-
-
-@app.get("/api/projeto/{projeto_id}/artefatos")
-async def api_projeto_artefatos(projeto_id: int, request: Request):
-    """Lista artefatos do projeto consultando o banco diretamente."""
-    auth = request.headers.get("Authorization", "")
-    if not auth.startswith("Bearer "):
-        return JSONResponse({"artefatos": [], "erro": "Não autorizado"}, status_code=401)
-    token = auth.split(" ", 1)[1]
-    resultado = verificar_sessao_usuario(token)
-    if not resultado["valido"]:
-        return JSONResponse({"artefatos": [], "erro": resultado.get("erro")}, status_code=401)
-
-    if not DATABASE_URL:
-        print("[db] DATABASE_URL não configurada.")
-        return JSONResponse({"artefatos": [], "erro": "Banco não configurado"}, status_code=500)
-
-    try:
-        dsn = DATABASE_URL.replace("postgres://", "postgresql://", 1)
-        conn = await asyncpg.connect(dsn)
-        try:
-            rows = await conn.fetch(
-                """
-                SELECT id, nome_arquivo, tipo_classificado, tags, resumo,
-                       data_upload, url_documento
-                FROM artefatos_brutos
-                WHERE projeto_id = $1
-                ORDER BY data_upload DESC
-                """,
-                projeto_id,
-            )
-        finally:
-            await conn.close()
-
-        artefatos = []
-        for row in rows:
-            tags = row["tags"]
-            if tags is None:
-                tags = []
-            elif isinstance(tags, str):
-                try:
-                    tags = json.loads(tags)
-                except Exception:
-                    tags = [tags]
-
-            artefatos.append({
-                "id": row["id"],
-                "nome_arquivo": row["nome_arquivo"],
-                "tipo": row["tipo_classificado"],
-                "tags": tags,
-                "resumo": row["resumo"],
-                "data_upload": row["data_upload"].isoformat() if row["data_upload"] else None,
-                "url_documento": row["url_documento"],
-            })
-
-        return JSONResponse({"artefatos": artefatos})
-
-    except Exception as e:
-        print(f"[db] Erro ao listar artefatos do projeto {projeto_id}: {e}")
-        return JSONResponse({"artefatos": [], "erro": "Erro ao consultar banco"}, status_code=500)
 
 
 # ── Healthcheck ────────────────────────────────────────────────────────────
