@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function carregarArquivos() {
     try {
         const response = await fetch(
-            `${window.API.UPLOAD}/api/projetos/${Sessao.getProjetoId()}/artefatos`,
+            `/api/projeto/${Sessao.getProjetoId()}/artefatos`,
             { headers: { "Authorization": `Bearer ${Sessao.getToken()}` } }
         );
         const data = await response.json();

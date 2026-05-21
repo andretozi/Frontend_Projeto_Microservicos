@@ -39,13 +39,6 @@
                 <span class="upload-ai-note">✧ A IA classificará e extrairá metadados automaticamente</span>
             </div>
 
-            <div class="upload-form-section" style="margin-top: 20px;">
-                <label for="projeto-nome">Projeto Vinculado:</label>
-                <input type="text" id="projeto-nome" class="upload-project-select"
-                       readonly placeholder="Carregando projeto..."
-                       style="background:#f9fafb; cursor:default;">
-                <input type="hidden" id="projeto-id-hidden">
-            </div>
 
             <div class="upload-meta-section" id="uploadMetaSection" style="display: none; gap: 16px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
                 <div class="upload-meta-field">
@@ -73,7 +66,8 @@
         UPLOAD: "{{ UPLOAD_API_URL }}",
         IA: "{{ IA_API_URL }}",
         GITHUB: "{{ GITHUB_API_URL }}",
-        LOGIN_URL: "{{ LOGIN_URL }}"
+        LOGIN_URL: "{{ LOGIN_URL }}",
+        FRONT_PRINCIPAL_URL: "{{ FRONT_PRINCIPAL_URL }}"
     };
 </script>
 <script src="{{ url_for('static', path='/js/sessao.js') }}"></script>
