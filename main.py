@@ -27,7 +27,14 @@ ALGORITHM = os.getenv("ALGORITHM", "HS256")
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
 
+if not JWT_SECRET_KEY:
+    print("WARNING: JWT_SECRET_KEY não configurada — todas as requisições autenticadas retornarão 401.")
+
+
 def verificar_sessao_usuario(token: str) -> dict:
+    if not JWT_SECRET_KEY:
+        print("[auth] ERRO: JWT_SECRET_KEY vazia. Configure a variável de ambiente.")
+        return {"valido": False, "erro": "Servidor sem chave JWT configurada."}
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
         return {
@@ -37,8 +44,10 @@ def verificar_sessao_usuario(token: str) -> dict:
             "nome": payload.get("nome"),
         }
     except jwt.ExpiredSignatureError:
+        print("[auth] Token expirado.")
         return {"valido": False, "erro": "Sessão expirada. Faça login novamente."}
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        print(f"[auth] Token inválido: {e}")
         return {"valido": False, "erro": "Token de autenticação inválido."}
 
 
@@ -100,42 +109,6 @@ async def api_validar_sessao(request: Request):
             status_code=401,
         )
     return JSONResponse(resultado)
-
-
-@app.get("/api/projeto/{projeto_id}/nome")
-async def api_projeto_nome(projeto_id: int, request: Request):
-    """Busca o nome do projeto no microsserviço Projetos."""
-    auth = request.headers.get("Authorization", "")
-    if not auth.startswith("Bearer "):
-        return JSONResponse({"nome": None, "fallback": projeto_id}, status_code=401)
-    token = auth.split(" ", 1)[1]
-    resultado = verificar_sessao_usuario(token)
-    if not resultado["valido"]:
-        return JSONResponse({"nome": None, "fallback": projeto_id}, status_code=401)
-
-    if not PROJETOS_SERVICE_URL:
-        return JSONResponse({"nome": None, "fallback": projeto_id})
-
-    paths = [
-        f"{PROJETOS_SERVICE_URL}/projetos/{projeto_id}",
-        f"{PROJETOS_SERVICE_URL}/api/projetos/{projeto_id}",
-    ]
-    headers = {"Authorization": auth}
-    async with httpx.AsyncClient(timeout=5.0) as client:
-        for path in paths:
-            try:
-                r = await client.get(path, headers=headers)
-                if r.status_code == 200:
-                    data = r.json()
-                    nome = data.get("nome") or data.get("name") or data.get("titulo")
-                    if nome:
-                        print(f"[projetos] Endpoint OK: {path}")
-                        return JSONResponse({"nome": nome})
-            except Exception as e:
-                print(f"[projetos] Erro em {path}: {e}")
-
-    print(f"[projetos] Nenhum endpoint respondeu. Usando fallback id={projeto_id}")
-    return JSONResponse({"nome": None, "fallback": projeto_id})
 
 
 @app.get("/api/projeto/{projeto_id}/artefatos")
