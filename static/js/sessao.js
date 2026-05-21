@@ -85,6 +85,7 @@ const Sessao = (() => {
         };
         localStorage.setItem('user_id', String(payload.sub || ''));
         localStorage.setItem('nome', payload.nome || '');
+        localStorage.setItem('email', payload.email || '');
 
         _prontoResolve();
 
@@ -94,6 +95,16 @@ const Sessao = (() => {
             const base = (window.API?.FRONT_PRINCIPAL_URL || '').replace(/\/$/, '');
             btn.href = base + '/projeto' + (_projetoId ? `?id=${_projetoId}` : '');
         }
+
+        // Preenche dados do usuário na sidebar
+        const nome  = _usuario?.nome  || '';
+        const email = _usuario?.email || '';
+        const nameEl   = document.getElementById('sidebar-user-name');
+        const emailEl  = document.getElementById('sidebar-user-email');
+        const avatarEl = document.querySelector('.profile-mini-avatar');
+        if (nameEl)   nameEl.textContent  = nome  || 'Usuário';
+        if (emailEl)  emailEl.textContent = email || '';
+        if (avatarEl) avatarEl.textContent = nome ? nome.charAt(0).toUpperCase() : 'U';
     }
 
     // .catch() garante que erros inesperados não virem unhandled rejection
