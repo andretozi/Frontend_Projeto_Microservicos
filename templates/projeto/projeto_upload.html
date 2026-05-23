@@ -4,22 +4,29 @@
     <meta charset="UTF-8">
     <title>DocuIA - Upload de Arquivos</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/sidebar.css') }}">
 </head>
 
 <body class="dashboard-body">
 
+{% set active_page = "projetos" %}
 {% include "interface/sidebar.html" %}
 
 <main class="dashboard-main">
-    <section class="project-internal-content" style="padding: 32px 40px;">
+    <section class="project-internal-content">
         <a href="/projeto" class="back-to-projects">← Voltar para Projetos</a>
 
-        <div style="margin-bottom: 24px;">
-            <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 6px;">Integração e Dados</h1>
-            <p style="font-size: 14px; color: #6b7280;">Gerencie os repositórios e documentos do projeto.</p>
+        <div class="page-header">
+            <div class="page-header-icon icon-upload" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div class="page-header-text">
+                <h1>Upload de Documentos</h1>
+                <p>Envie arquivos para o projeto — a IA classificará e extrairá metadados automaticamente.</p>
+            </div>
         </div>
 
-        <div class="project-tabs" style="margin-bottom: 32px;">
+        <div class="project-tabs">
             <a href="/projeto/github" class="tab">Repositórios GitHub</a>
             <a href="/projeto/upload" class="tab active">Upload</a>
             <a href="/projeto/arquivos" class="tab">Arquivos Processados</a>
@@ -28,19 +35,18 @@
         <input type="file" id="fileInput" style="display:none">
         <div class="upload-zone" id="uploadZone">
             <div class="upload-zone-drop">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="17 8 12 3 7 8"/>
                     <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
                 <h3 id="texto-drop">Arraste arquivos aqui ou clique para selecionar</h3>
                 <p>PDFs, DOCX, imagens, diagramas e outros documentos do projeto</p>
-                <button class="btn-upload" type="button" id="btnSelect" style="margin: 0 auto;">Selecionar Arquivos</button>
-                <span class="upload-ai-note">✧ A IA classificará e extrairá metadados automaticamente</span>
+                <button class="btn-upload" type="button" id="btnSelect">Selecionar Arquivos</button>
+                <span class="upload-ai-note">A IA classificará e extrairá metadados automaticamente.</span>
             </div>
 
-
-            <div class="upload-meta-section" id="uploadMetaSection" style="display: none; gap: 16px; margin-top: 20px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+            <div class="upload-meta-section" id="uploadMetaSection">
                 <div class="upload-meta-field">
                     <label for="uploadFileName">Nome do arquivo</label>
                     <input type="text" id="uploadFileName" class="upload-meta-input" readonly>
@@ -49,12 +55,12 @@
                     <label for="uploadFileExt">Extensão</label>
                     <input type="text" id="uploadFileExt" class="upload-meta-input" readonly>
                 </div>
-                <div class="upload-meta-field" style="justify-content: flex-end; flex-direction: row; align-items: flex-end; gap: 10px;">
-                    <button id="btnLimpar" class="btn-organize" style="margin-bottom: 0; background: #f1f5f9; height: 44px;">Limpar</button>
-                    <button id="btnEnviarBackEnd" class="btn-upload" style="margin-bottom: 0; height: 44px;">Salvar Documento</button>
+                <div class="upload-actions">
+                    <button id="btnLimpar" class="btn-organize" type="button">Limpar</button>
+                    <button id="btnEnviarBackEnd" class="btn-upload" type="button" style="margin-bottom: 0;">Salvar Documento</button>
                 </div>
             </div>
-            <p id="uploadStatus" style="text-align: center; margin-top: 15px; font-weight: 600;"></p>
+            <p id="uploadStatus"></p>
         </div>
     </section>
 </main>

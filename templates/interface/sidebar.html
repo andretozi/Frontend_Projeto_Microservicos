@@ -1,34 +1,72 @@
+<!-- SIDEBAR -->
 <aside class="sidebar">
+
+    <!-- LOGO -->
     <div class="sidebar-logo">
-        <h2>DocuIA</h2>
+        <h2>DocIA</h2>
         <p>Documentação Inteligente</p>
     </div>
+
+    <!-- MENU -->
+    {% set _active = active_page if active_page is defined else "" %}
     <nav class="menu">
-        <a href="{{ FRONT_PRINCIPAL_URL }}/dashboard">
-            <img src="{{ url_for('static', path='/assets/images/dashboard.png') }}" alt="Dashboard" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Dashboard</span>
+        <a class="{% if _active == 'dashboard' %}active{% endif %}" href="{{ FRONT_PRINCIPAL_URL }}/dashboard">
+            <img src="{{ url_for('static', path='/assets/images/dashboard.png') }}" alt="Dashboard" style="width:14px; height:14px;">
+            <span>Dashboard</span>
         </a>
-        <a href="{{ FRONT_PRINCIPAL_URL }}/empresas">
-            <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="Empresas" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Empresas</span>
+
+        <a class="{% if _active == 'empresas' %}active{% endif %}" href="{{ FRONT_PRINCIPAL_URL }}/empresas">
+            <img src="{{ url_for('static', path='/assets/images/business-and-trade.png') }}" alt="Empresas" style="width:14px; height:14px;">
+            <span>Empresas</span>
         </a>
-        <a class="active" href="{{ FRONT_PRINCIPAL_URL }}/projetos">
-            <img src="{{ url_for('static', path='/assets/images/folder.png') }}" alt="Projetos" style="width:18px; height:18px; vertical-align:text-bottom;"> <span>Projetos</span>
+
+        <a class="{% if _active == 'projetos' %}active{% endif %}" href="{{ FRONT_PRINCIPAL_URL }}/projetos">
+            <img src="{{ url_for('static', path='/assets/images/folder.png') }}" alt="Projetos" style="width:14px; height:14px;">
+            <span>Projetos</span>
         </a>
     </nav>
+
+    <!-- PARTE INFERIOR -->
     <div class="sidebar-bottom">
+
+        <!-- MENU DROPDOWN DO USUÁRIO -->
         <div class="user-dropdown-area">
+
+            <!-- MENU -->
             <div class="user-menu" id="userMenu">
-                <a href="{{ FRONT_PRINCIPAL_URL }}/perfil">♙ Meu Perfil</a>
+                <a href="{{ FRONT_PRINCIPAL_URL }}/perfil">
+                    <svg class="user-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Meu Perfil
+                </a>
+
                 <div class="menu-divider"></div>
-                <a href="{{ FRONT_PRINCIPAL_URL }}/login" class="logout-link">↪ Sair</a>
+
+                <a href="{{ FRONT_PRINCIPAL_URL }}/login" class="logout-link">
+                    <svg class="user-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>
+                    Sair
+                </a>
             </div>
+
+            <!-- BOTÃO -->
             <button class="user-box user-toggle" onclick="toggleUserMenu()">
-                <div class="profile-mini-avatar">U</div>
+
+                <div class="profile-mini-avatar">
+                    U
+                </div>
+
                 <div class="user-info">
                     <strong id="sidebar-user-name">Usuário</strong>
-                    <p id="sidebar-user-email"></p>
+                    <p id="sidebar-user-email">email@exemplo.com</p>
                 </div>
-                <span class="dropdown-arrow">⌄</span>
+
+                <span class="dropdown-arrow" aria-hidden="true">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </span>
+
             </button>
+
         </div>
+
     </div>
+
 </aside>
