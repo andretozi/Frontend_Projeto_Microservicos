@@ -1,5 +1,3 @@
-// projeto_github.js — extraído de templates/projeto/projeto_github.html
-
 function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
 function toggleUserMenu() { document.getElementById("userMenu").classList.toggle("show"); }
 
@@ -57,6 +55,8 @@ window.addEventListener("click", function(e) {
 
         const sincronizar = chkSincronizar.checked;
 
+        await Sessao.pronto;
+
         const payload = {
             projeto_id: parseInt(Sessao.getProjetoId(), 10),
             url: url,
@@ -73,10 +73,7 @@ window.addEventListener("click", function(e) {
             console.log("Payload enviado:", payload);
             const response = await fetch(endpoint, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${Sessao.getToken()}`
-                },
+                headers: Sessao.getHeaders(),
                 body: JSON.stringify(payload)
             });
             console.log("Status HTTP:", response.status, "OK:", response.ok);
@@ -88,7 +85,6 @@ window.addEventListener("click", function(e) {
             } else {
                 try {
                     const errBody = await response.json();
-                    // FastAPI normalmente retorna { "detail": "mensagem" } ou { "detail": [ {...validation errors...} ] }
                     let msg;
                     if (Array.isArray(errBody.detail)) {
                         msg = errBody.detail

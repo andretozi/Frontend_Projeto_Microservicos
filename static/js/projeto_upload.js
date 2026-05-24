@@ -1,5 +1,3 @@
-// projeto_upload.js
-
 function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
 function toggleUserMenu() { document.getElementById("userMenu").classList.toggle("show"); }
 
@@ -75,19 +73,19 @@ window.addEventListener("click", function(e) {
 
     btnEnviar.addEventListener('click', async function() {
         if (!arquivoReal) return;
-        const formData = new FormData();
-        formData.append("projeto_id", Sessao.getProjetoId());
-        formData.append("documento", arquivoReal);
 
-        // Captura o token JWT salvo no navegador
-        const token = localStorage.getItem("token");
+        await Sessao.pronto;
 
-        // Trava de segurança no próprio front-end
+        const token = Sessao.getToken();
         if (!token) {
             statusText.innerText = "Erro: Token de autenticação não encontrado. Faça login novamente.";
             statusText.style.color = "#ef4444";
             return;
         }
+
+        const formData = new FormData();
+        formData.append("projeto_id", Sessao.getProjetoId());
+        formData.append("documento", arquivoReal);
 
         statusText.innerText = "Enviando e processando na IA... Aguarde.";
         statusText.style.color = "#3b82f6";
@@ -95,9 +93,7 @@ window.addEventListener("click", function(e) {
         try {
             const response = await fetch(`${window.API.UPLOAD}/api/upload`, {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}` // <--- O crachá de segurança que o FastAPI exige
-                },
+                headers: Sessao.getHeaders(false),
                 body: formData
             });
 

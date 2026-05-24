@@ -1,13 +1,10 @@
-<!-- SIDEBAR -->
 <aside class="sidebar">
 
-    <!-- LOGO -->
     <div class="sidebar-logo">
         <h2>DocIA</h2>
         <p>Documentação Inteligente</p>
     </div>
 
-    <!-- MENU -->
     {% set _active = active_page if active_page is defined else "" %}
     <nav class="menu">
         <a class="{% if _active == 'dashboard' %}active{% endif %}" href="{{ FRONT_PRINCIPAL_URL }}/dashboard">
@@ -26,13 +23,10 @@
         </a>
     </nav>
 
-    <!-- PARTE INFERIOR -->
     <div class="sidebar-bottom">
 
-        <!-- MENU DROPDOWN DO USUÁRIO -->
         <div class="user-dropdown-area">
 
-            <!-- MENU -->
             <div class="user-menu" id="userMenu">
                 <a href="{{ FRONT_PRINCIPAL_URL }}/perfil">
                     <svg class="user-menu-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -47,7 +41,6 @@
                 </a>
             </div>
 
-            <!-- BOTÃO -->
             <button class="user-box user-toggle" onclick="toggleUserMenu()">
 
                 <div class="profile-mini-avatar">

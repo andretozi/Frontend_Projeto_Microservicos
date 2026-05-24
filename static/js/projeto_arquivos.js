@@ -1,6 +1,3 @@
-// projeto_arquivos.js
-
-// Menus
 function toggleCompanyMenu() { document.getElementById("companyMenu").classList.toggle("show"); }
 function toggleUserMenu() { document.getElementById("userMenu").classList.toggle("show"); }
 window.addEventListener("click", function(e) {
@@ -22,7 +19,7 @@ async function carregarArquivos() {
     try {
         const response = await fetch(
             `${window.API.UPLOAD}/api/projeto/${Sessao.getProjetoId()}/artefatos`,
-            { headers: { "Authorization": `Bearer ${Sessao.getToken()}` } }
+            { headers: Sessao.getHeaders(false) }
         );
         const data = await response.json();
         if (data.artefatos) {
@@ -119,7 +116,6 @@ function renderizarLista(listaParaRenderizar) {
     });
 }
 
-// LOGICA DO SMART PREVIEW
 const previewModal = document.getElementById('previewModal');
 function abrirPreview(id) {
     const arquivo = arquivosGlobais.find(a => a.id === id);
@@ -152,13 +148,12 @@ function abrirPreview(id) {
             return `<span style="${style}">${t}</span>`;
         }).join("");
 
-        // --- NOVA LÓGICA DO BOTÃO DE VISUALIZAÇÃO ---
         const btnVisualizar = document.getElementById('btnVisualizar');
         if (arquivo.url_documento) {
             btnVisualizar.href = arquivo.url_documento;
-            btnVisualizar.style.display = 'flex'; // Mostra o botão se tiver URL
+            btnVisualizar.style.display = 'flex';
         } else {
-            btnVisualizar.style.display = 'none'; // Esconde se for um arquivo antigo sem URL
+            btnVisualizar.style.display = 'none';
         }
 
         previewModal.style.display = 'flex';
@@ -166,7 +161,6 @@ function abrirPreview(id) {
 }
 function fecharPreview() { previewModal.style.display = 'none'; }
 
-// LOGICA DO MODAL DE DELETAR
 const modal = document.getElementById('deleteModal');
 const chkConfirm = document.getElementById('chkConfirmDelete');
 const btnConfirmDelete = document.getElementById('btnConfirmDelete');
@@ -189,7 +183,7 @@ btnConfirmDelete.addEventListener('click', async () => {
     try {
         const res = await fetch(`${window.API.UPLOAD}/api/artefatos/${arquivoParaDeletarId}`, {
             method: 'DELETE',
-            headers: { "Authorization": `Bearer ${Sessao.getToken()}` }
+            headers: Sessao.getHeaders(false)
         });
         if(res.ok) { fecharModal(); await carregarArquivos(); btnConfirmDelete.innerText = "Deletar Arquivo"; }
     } catch (e) { alert("Erro de rede."); }
